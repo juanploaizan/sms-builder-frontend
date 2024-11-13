@@ -1,0 +1,14 @@
+<p-panel header="Pasos del estudio de mapeo sistemático" toggleable="true">
+  <p-carousel
+    [value]="items"
+    [responsiveOptions]="responsiveOptions"
+    showIndicators="false"
+  >
+    <ng-template pTemplate="item" let-step>
+      <div class="step-item" (click)="onStepClick(step.path)">
+        <h3>Paso {{ step.step }}</h3>
+        <p>{{ step.label }}</p>
+      </div>
+    </ng-template>
+  </p-carousel>
+</p-panel>

@@ -1,8 +1,11 @@
-<div class="layout-wrapper">
-  <app-topbar></app-topbar>
-  <div class="layout-content">
-    <div class="content-area">
-      <router-outlet></router-outlet>
-    </div>
+<div class="p-grid p-nogutter">
+  <div class="p-col-12 mb-3">
+    <app-topbar></app-topbar>
+  </div>
+  <div class="p-col-12 mb-3">
+    <app-step-carousel></app-step-carousel>
+  </div>
+  <div class="p-col-12">
+    <router-outlet></router-outlet>
   </div>
 </div>

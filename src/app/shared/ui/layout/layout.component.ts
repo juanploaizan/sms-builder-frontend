@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { SidebarComponent } from './sidebar/sidebar.component';
+import { StepCarouselComponent } from './step-carousel/step-carousel.component';
 import { TopbarComponent } from './topbar/topbar.component';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [RouterModule, SidebarComponent, TopbarComponent],
+  imports: [RouterModule, StepCarouselComponent, TopbarComponent],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss',
 })

@@ -1,0 +1,33 @@
+.card {
+  padding: 0;
+  margin: 0;
+}
+
+.carousel-container {
+  height: 100px; /* Ajusta esta altura según tus necesidades */
+}
+
+.step-item {
+  text-align: center;
+  padding: 0.5rem; /* Reduce el padding para disminuir el tamaño vertical */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  height: 100%; /* Asegura que los elementos ocupen toda la altura del contenedor */
+
+  h3 {
+    margin: 0.5rem 0; /* Ajusta el margen para reducir el espacio vertical */
+    font-size: 1rem; /* Ajusta el tamaño de la fuente según tus necesidades */
+  }
+
+  p {
+    margin: 0.5rem 0; /* Ajusta el margen para reducir el espacio vertical */
+    font-size: 0.875rem; /* Ajusta el tamaño de la fuente según tus necesidades */
+  }
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+}

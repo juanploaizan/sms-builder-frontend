@@ -1,77 +1,70 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
-import { SidebarComponent } from '../sidebar/sidebar.component';
+import { BadgeModule } from 'primeng/badge';
+import { AvatarModule } from 'primeng/avatar';
+import { InputTextModule } from 'primeng/inputtext';
+import { CommonModule } from '@angular/common';
+import { RippleModule } from 'primeng/ripple';
+import { ButtonModule } from 'primeng/button';
+import { MenuModule } from 'primeng/menu';
+import { AuthService } from '../../../../auth/data-access/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-topbar',
   standalone: true,
-  imports: [MenubarModule, SidebarComponent],
+  imports: [
+    MenubarModule,
+    BadgeModule,
+    ButtonModule,
+    MenuModule,
+    InputTextModule,
+    RippleModule,
+    CommonModule,
+  ],
   templateUrl: './topbar.component.html',
   styleUrl: './topbar.component.scss',
 })
 export class TopbarComponent implements OnInit {
   items: MenuItem[] | undefined;
+  userItems: MenuItem[] | undefined;
 
-  ngOnInit() {
+  constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit(): void {
     this.items = [
       {
-        label: 'Planeación',
-        icon: 'pi pi-calendar',
-        items: [
-          { label: 'Ver seleccionados', icon: 'pi pi-eye' },
-          { label: 'Estudios', icon: 'pi pi-book' },
-          { label: 'Proceso', icon: 'pi pi-cog' },
-          { label: 'Restaurar', icon: 'pi pi-refresh' },
-          { label: 'Respaldar', icon: 'pi pi-save' },
-        ],
+        label: 'Inicio',
+        icon: 'pi pi-home',
       },
       {
-        label: 'Búsqueda de estudios',
-        icon: 'pi pi-search',
-        items: [
-          { label: 'Configurar SMS', icon: 'pi pi-cog' },
-          { label: 'Metas', icon: 'pi pi-bullseye' },
-          { label: 'Preguntas de investigación', icon: 'pi pi-question' },
-          { label: 'Tema de búsqueda', icon: 'pi pi-tag' },
-          { label: 'Atributos de calidad', icon: 'pi pi-star' },
-          { label: 'Fuente', icon: 'pi pi-database' },
-          { label: 'Criterios de selección', icon: 'pi pi-filter' },
-          { label: 'Cadena de búsqueda', icon: 'pi pi-link' },
-        ],
+        label: 'Configuración',
+        icon: 'pi pi-cog',
       },
       {
-        label: 'Análisis de calidad',
-        icon: 'pi pi-chart-bar',
-        items: [{ label: 'Tabla de calidad', icon: 'pi pi-table' }],
+        label: 'Github',
+        icon: 'pi pi-github',
       },
+    ];
+
+    this.userItems = [
       {
-        label: 'Colección de datos',
-        icon: 'pi pi-folder-open',
+        label: 'Usuario',
         items: [
-          { label: 'Palabras clave', icon: 'pi pi-key' },
-          { label: 'SPS con...', icon: 'pi pi-list' },
-        ],
-      },
-      {
-        label: 'Análisis y clasificación de estudios',
-        icon: 'pi pi-chart-line',
-        items: [
-          { label: 'SPS por pregunta', icon: 'pi pi-question-circle' },
-          { label: 'SPS por tema', icon: 'pi pi-tags' },
-        ],
-      },
-      {
-        label: 'Resultados',
-        icon: 'pi pi-chart-pie',
-        items: [
+          { label: 'Perfil', icon: 'pi pi-user' },
+          { label: 'Configuración', icon: 'pi pi-cog' },
           {
-            label:
-              'SPS por año, tipo, estrategia de búsqueda, tema, pregunta, etc.',
-            icon: 'pi pi-calendar',
+            label: 'Salir',
+            icon: 'pi pi-sign-out',
+            command: () => this.logout(),
           },
         ],
       },
     ];
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }

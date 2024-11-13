@@ -19,12 +19,20 @@ export const routes: Routes = [
         component: RootPageComponent,
       },
       {
+        path: 'sms-configuration',
+        loadComponent: () =>
+          import(
+            './dashboard/sms-configuration/sms-configuration.component'
+          ).then((m) => m.SmsConfigurationComponent),
+      },
+      {
         path: 'goals',
         loadComponent: () =>
           import('./dashboard/goals/goals.component').then(
             (m) => m.GoalsComponent
           ),
       },
+
       {
         path: '**',
         redirectTo: '',

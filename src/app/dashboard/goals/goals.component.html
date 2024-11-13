@@ -1,1 +1,23 @@
-<p>goals works!</p>
+<p-panel header="Gestión de metas">
+  <div class="flex align-items-center justify-content-between">
+    <p-button label="Agregar"></p-button>
+    <p-button label="Eliminar"></p-button>
+  </div>
+
+  <p-table [value]="goals" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-goal>
+      <tr>
+        <td>{{ goal.id }}</td>
+        <td>{{ goal.name }}</td>
+        <td>{{ goal.description }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-panel>
