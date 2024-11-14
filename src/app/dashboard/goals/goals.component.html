@@ -1,23 +1,148 @@
-<p-panel header="Gestión de metas">
-  <div class="flex align-items-center justify-content-between">
-    <p-button label="Agregar"></p-button>
-    <p-button label="Eliminar"></p-button>
-  </div>
+<p-panel header="Gestión de objetivos">
+  <p-toolbar styleClass="mb-4 gap-2">
+    <ng-template pTemplate="left">
+      <p-button
+        severity="success"
+        label="Nuevo"
+        icon="pi pi-plus"
+        class="mr-2"
+        (onClick)="openNew()"
+      />
+    </ng-template>
 
-  <p-table [value]="goals" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="right">
+      <p-button
+        severity="danger"
+        label="Eliminar"
+        icon="pi pi-trash"
+        (onClick)="deleteSelectedGoals()"
+        [disabled]="!selectedGoals || !selectedGoals.length"
+      />
+    </ng-template>
+  </p-toolbar>
+
+  <p-table
+    #dt
+    [value]="goals"
+    [(selection)]="selectedGoals"
+    [paginator]="true"
+    [globalFilterFields]="['codigo']"
+    [rows]="5"
+    [rowHover]="true"
+    dataKey="id"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} entradas"
+    [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[5, 10, 20]"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        Tabla de objetivos
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            type="text"
+            [(ngModel)]="searchValue"
+            (input)="dt.filterGlobal(searchValue, 'contains')"
+            placeholder="Buscar..."
+          />
+        </span>
+      </div>
+    </ng-template>
     <ng-template pTemplate="header">
       <tr>
-        <th>ID</th>
-        <th>Nombre</th>
+        <th style="width: 4rem"><p-tableHeaderCheckbox /></th>
+        <th pSortableColumn="codigo">Código <p-sortIcon field="codigo" /></th>
         <th>Descripción</th>
+        <th>Acciones</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-goal>
       <tr>
-        <td>{{ goal.id }}</td>
-        <td>{{ goal.name }}</td>
-        <td>{{ goal.description }}</td>
+        <td>
+          <p-tableCheckbox [value]="goal" />
+        </td>
+        <td>{{ goal.codigo }}</td>
+        <td>{{ goal.descripcion }}</td>
+        <td>
+          <p-button
+            icon="pi pi-pencil"
+            class="mr-2"
+            [rounded]="true"
+            [outlined]="true"
+            severity="success"
+            (onClick)="editGoal(goal)"
+          />
+          <p-button
+            icon="pi pi-trash"
+            severity="danger"
+            [rounded]="true"
+            [outlined]="true"
+            (onClick)="deleteGoal(goal)"
+          />
+        </td>
       </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        En total hay {{ goals ? goals.length : 0 }} objetivo/s.
+      </div>
     </ng-template>
   </p-table>
 </p-panel>
+
+<p-dialog
+  [(visible)]="goalDialog"
+  [style]="{ width: '450px' }"
+  header="Objetivo"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <form [formGroup]="formGoal">
+      <div class="field">
+        <label for="codigo">Código</label>
+        <input
+          type="text"
+          pInputText
+          id="codigo"
+          formControlName="codigo"
+          required
+          autofocus
+        />
+      </div>
+      <div class="field">
+        <label for="descripcion">Descripción</label>
+        <textarea
+          id="descripcion"
+          pInputTextarea
+          formControlName="descripcion"
+          required
+          rows="3"
+          cols="20"
+        >
+        </textarea>
+      </div>
+    </form>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <p-button
+      label="Cancelar"
+      icon="pi pi-times"
+      severity="secondary"
+      [text]="true"
+      (onClick)="hideDialog()"
+    />
+    <p-button
+      label="Guardar"
+      icon="pi pi-check"
+      [text]="true"
+      [loading]="isSaving"
+      type="submit"
+      (onClick)="saveGoal()"
+    />
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{ width: '450px' }" />

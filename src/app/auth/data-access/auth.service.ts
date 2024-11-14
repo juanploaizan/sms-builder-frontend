@@ -1,7 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, signal } from '@angular/core';
-import { map, Observable, tap } from 'rxjs';
-import { User } from '../api/user';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Injectable({
