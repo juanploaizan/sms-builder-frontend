@@ -8,9 +8,6 @@
         class="mr-2"
         (onClick)="openNew()"
       />
-    </ng-template>
-
-    <ng-template pTemplate="right">
       <p-button
         severity="danger"
         label="Eliminar"
@@ -19,10 +16,20 @@
         [disabled]="!selectedGoals || !selectedGoals.length"
       />
     </ng-template>
+
+    <ng-template pTemplate="right">
+      <p-button
+        icon="pi pi-external-link"
+        severity="help"
+        label="Exportar"
+        (onClick)="dt.exportCSV()"
+      />
+    </ng-template>
   </p-toolbar>
 
   <p-table
     #dt
+    [columns]="cols"
     [value]="goals"
     [(selection)]="selectedGoals"
     [paginator]="true"
@@ -34,6 +41,7 @@
     currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} entradas"
     [showCurrentPageReport]="true"
     [rowsPerPageOptions]="[5, 10, 20]"
+    [exportHeader]="'customExportHeader'"
   >
     <ng-template pTemplate="caption">
       <div class="flex align-items-center justify-content-between">
@@ -50,11 +58,12 @@
         </span>
       </div>
     </ng-template>
-    <ng-template pTemplate="header">
+    <ng-template pTemplate="header" let-columns>
       <tr>
         <th style="width: 4rem"><p-tableHeaderCheckbox /></th>
-        <th pSortableColumn="codigo">Código <p-sortIcon field="codigo" /></th>
-        <th>Descripción</th>
+        <th *ngFor="let col of columns">
+          {{ col.header }}
+        </th>
         <th>Acciones</th>
       </tr>
     </ng-template>

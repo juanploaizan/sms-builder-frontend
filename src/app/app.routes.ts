@@ -31,6 +31,7 @@ export const routes: Routes = [
           import('./dashboard/goals/goals.component').then(
             (m) => m.GoalsComponent
           ),
+        title: 'Paso 2 - Gestión de objetivos - SMS Builder',
       },
 
       {

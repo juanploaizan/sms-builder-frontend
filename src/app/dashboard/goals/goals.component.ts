@@ -21,6 +21,17 @@ import { CommonModule } from '@angular/common';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 
+interface Column {
+  field: string;
+  header: string;
+  customExportHeader?: string;
+}
+
+interface ExportColumn {
+  title: string;
+  dataKey: string;
+}
+
 @Component({
   selector: 'app-goals',
   standalone: true,
@@ -44,6 +55,9 @@ import { DropdownModule } from 'primeng/dropdown';
   styleUrl: './goals.component.scss',
 })
 export class GoalsComponent implements OnInit {
+  cols!: Column[];
+  exportColumns!: ExportColumn[];
+
   formGoal!: FormGroup;
   goals: Goal[] = [];
   searchValue: string = '';
@@ -53,7 +67,7 @@ export class GoalsComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private goalServie: GoalService,
+    private goalService: GoalService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService
   ) {
@@ -65,13 +79,23 @@ export class GoalsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.goalServie.getGoals().subscribe((data) => {
+    this.goalService.getGoals().subscribe((data) => {
       this.goals = data;
     });
+
+    this.cols = [
+      { field: 'codigo', header: 'Código' },
+      { field: 'descripcion', header: 'Descripción' },
+    ];
+
+    this.exportColumns = this.cols.map((col) => ({
+      title: col.header,
+      dataKey: col.field,
+    }));
   }
 
   openNew() {
-    this.formGoal.reset();
+    this.resetForm();
     this.goalDialog = true;
   }
 
@@ -82,13 +106,14 @@ export class GoalsComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.selectedGoals.forEach((goal) => {
-          this.goalServie.deleteGoal(goal.id).subscribe();
+          this.goalService.deleteGoal(goal.id).subscribe();
         });
         this.goals = this.goals.filter(
           (val) => !this.selectedGoals.includes(val)
         );
         this.selectedGoals = [];
         this.showMessage('success', 'Exitoso', 'Objetivos eliminados');
+        this.updateGoals();
       },
     });
   }
@@ -104,10 +129,11 @@ export class GoalsComponent implements OnInit {
       header: 'Confirmar',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.goalServie.deleteGoal(goal.id).subscribe({
+        this.goalService.deleteGoal(goal.id).subscribe({
           next: () => {
             this.goals = this.goals.filter((val) => val.id !== goal.id);
             this.showMessage('success', 'Exitoso', 'Objetivo eliminado');
+            this.updateGoals();
           },
           error: () => {
             this.showMessage('error', 'Error', 'Error al eliminar el objetivo');
@@ -135,20 +161,22 @@ export class GoalsComponent implements OnInit {
     this.isSaving = true;
 
     if (this.formGoal.value.id) {
-      this.goalServie.updateGoal(this.formGoal.value).subscribe({
+      this.goalService.updateGoal(this.formGoal.value).subscribe({
         next: (res) => {
-          this.goals[this.findIndexById(this.formGoal.value.id)] = res;
+          this.goals[this.findIndexById(res.id)] = res;
           this.showMessage('success', 'Exitoso', 'Objetivo actualizado');
+          this.updateGoals();
         },
         error: () => {
           this.showMessage('error', 'Error', 'Error al actualizar el objetivo');
         },
       });
     } else {
-      this.goalServie.createGoal(this.formGoal.value).subscribe({
+      this.goalService.createGoal(this.formGoal.value).subscribe({
         next: (res) => {
           this.goals.push(res);
           this.showMessage('success', 'Exitoso', 'Objetivo creado');
+          this.updateGoals();
         },
         error: () => {
           this.showMessage('error', 'Error', 'Error al crear el objetivo');
@@ -157,20 +185,11 @@ export class GoalsComponent implements OnInit {
     }
     this.goalDialog = false;
     this.isSaving = false;
-    this.formGoal.reset();
-    this.goals = [...this.goals];
+    this.resetForm();
   }
 
-  findIndexById(id: string): number {
-    let index = -1;
-    for (let i = 0; i < this.goals.length; i++) {
-      if (this.goals[i].id === id) {
-        index = i;
-        break;
-      }
-    }
-
-    return index;
+  private findIndexById(id: string): number {
+    return this.goals.findIndex((goal) => goal.id === id);
   }
 
   private showMessage(severity: string, summary: string, detail: string) {
@@ -180,5 +199,13 @@ export class GoalsComponent implements OnInit {
       detail,
       life: 3000,
     });
+  }
+
+  private resetForm() {
+    this.formGoal.reset();
+  }
+
+  private updateGoals() {
+    this.goals = [...this.goals];
   }
 }

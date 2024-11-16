@@ -30,4 +30,9 @@
   &:hover {
     background-color: #e0e0e0;
   }
+
+  &.current {
+    border: 2px solid #007ad9; /* Cambia el color del borde para resaltar */
+    background-color: #e0f7fa; /* Cambia el color de fondo para resaltar */
+  }
 }
