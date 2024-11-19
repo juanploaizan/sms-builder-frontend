@@ -11,6 +11,9 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) {}
 
   login(username: string, password: string) {
+    console.log('login credentials', username, password);
+    this.logout(); // Clear previous token
+
     return this.http
       .post(
         `${this.API_URL}/seguridad/login`,

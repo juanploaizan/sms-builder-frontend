@@ -64,7 +64,7 @@ export class StepCarouselComponent implements OnInit {
       { step: 2, label: 'Objetivos', path: '/goals' },
       { step: 3, label: 'Preguntas', path: '/questions' },
       { step: 4, label: 'Ejemplo 4', path: '/ejemplo4' },
-      { step: 5, label: 'Ejemplo 5', path: '/ejemplo5' },
+      { step: 5, label: 'Criterios de selección', path: '/selection-criteria' },
       { step: 6, label: 'Ejemplo 6', path: '/ejemplo6' },
       { step: 7, label: 'Ejemplo 7', path: '/ejemplo7' },
       { step: 8, label: 'Ejemplo 8', path: '/ejemplo8' },

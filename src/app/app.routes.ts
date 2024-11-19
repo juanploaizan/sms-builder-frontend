@@ -33,6 +33,14 @@ export const routes: Routes = [
           ),
         title: 'Paso 2 - Gestión de objetivos - SMS Builder',
       },
+      {
+        path: 'selection-criteria',
+        loadComponent: () =>
+          import(
+            './dashboard/selection-criteria/selection-criteria.component'
+          ).then((m) => m.SelectionCriteriaComponent),
+        title: 'Paso 5 - Criterios de selección - SMS Builder',
+      },
 
       {
         path: '**',

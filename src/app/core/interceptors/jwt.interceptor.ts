@@ -34,6 +34,7 @@ export const JwtInterceptor: HttpInterceptorFn = (
         authService.logout();
         router.navigate(['/auth/login']);
       }
+      console.error(error);
       return throwError(() => new Error(error.message));
     })
   );
