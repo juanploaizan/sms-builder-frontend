@@ -3,19 +3,35 @@
   margin: 0;
 }
 
-.carousel-container {
+.p-carousel-container {
   height: 100px; /* Ajusta esta altura según tus necesidades */
+  overflow: visible;
 }
 
+
 .step-item {
+
+  /* Codigo de daniel para generar el step como un wizzard */
+
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  position: relative;
+  z-index: 1;
+
   text-align: center;
   padding: 0.5rem; /* Reduce el padding para disminuir el tamaño vertical */
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 3px solid #ccc;
+  //border-radius: 4px;
   background-color: #f9f9f9;
   cursor: pointer;
   transition: background-color 0.3s;
-  height: 100%; /* Asegura que los elementos ocupen toda la altura del contenedor */
+  //height: 100%; /* Asegura que los elementos ocupen toda la altura del contenedor */
+
 
   h3 {
     margin: 0.5rem 0; /* Ajusta el margen para reducir el espacio vertical */
@@ -34,5 +50,84 @@
   &.current {
     border: 2px solid #007ad9; /* Cambia el color del borde para resaltar */
     background-color: #e0f7fa; /* Cambia el color de fondo para resaltar */
+  }
+}
+
+
+/* Codigo añadido por daniel para estilos del carrousel para darle aspecto de wizzard */
+/* Contenedor general para cada paso */
+.step-item-wrapper {
+  position: relative; // Necesario para la línea conectora
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 10px; // Separación horizontal entre pasos
+}
+
+/* Número dentro del círculo */
+.step-number {
+  font-size: 40px !important; // Tamaño del texto
+  color: gray !important; // Color del texto
+  font-weight: bold !important; // Negrita para resaltar
+}
+
+/* Etiqueta debajo del círculo */
+.step-label {
+  margin-top: 10px; // Espaciado entre el círculo y la etiqueta
+  font-size: 14px; // Tamaño de texto
+  color: #555; // Color del texto
+  text-align: center; // Centrado
+}
+
+/* Línea conectora entre pasos */
+.step-item-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 50%; /* Centrar la línea verticalmente respecto al círculo */
+  left: calc(100%); /* Iniciar la línea desde el borde derecho del círculo */
+  width: 80px; /* Ajustar la longitud de la línea */
+  height: 2px; /* Grosor de la línea */
+  background-color: #64b5f6; /* Azul suave */
+  z-index: 0; /* Asegúrate de que esté debajo del contenido principal */
+  background-color: red;
+}
+
+/* Esconde la línea en el último paso */
+.step-item-wrapper:last-child::after {
+  display: none;
+  content: none;
+}
+
+/* Resaltar el paso actual */
+.step-item.current {
+  background-color: dodgerblue; // Fondo verde para el paso actual
+  border-color: dodgerblue; // Borde verde
+}
+
+/* Responsividad: reducir tamaño en pantallas pequeñas */
+@media (max-width: 768px) {
+  .step-item {
+    width: 50px;
+    height: 50px;
+  }
+
+  .step-number {
+    font-size: 20px;
+    color: #000000;
+    font-weight: bold;
+  }
+
+  .step-item-wrapper::after {
+    width: 50px;
+    left: calc(100% + 5px);
+    background-color: #666;
+  }
+
+  .p-carousel-items-content {
+    overflow: visible !important; /* Permitir que las líneas sean visibles */
+  }
+
+  .p-carousel-items-container {
+    overflow: visible !important; /* Asegura que no se recorten los elementos internos */
   }
 }

@@ -3,15 +3,19 @@
     [value]="items"
     [responsiveOptions]="responsiveOptions"
     showIndicators="false"
+    [numVisible]="5"
+    [numScroll]="1"
   >
     <ng-template pTemplate="item" let-step>
-      <div
-        class="step-item"
-        [class.current]="isCurrentStep(step.path)"
-        (click)="onStepClick(step.path)"
-      >
-        <h3>Paso {{ step.step }}</h3>
-        <p>{{ step.label }}</p>
+      <div class="step-item-wrapper">
+        <div
+          class="step-item"
+          [class.current]="isCurrentStep(step.path)"
+          (click)="onStepClick(step.path)"
+        >
+          <span class="step-number">{{ step.step }}</span>
+        </div>
+        <span class="step-label">{{ step.label }}</span>
       </div>
     </ng-template>
   </p-carousel>

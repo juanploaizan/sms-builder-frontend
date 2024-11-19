@@ -5,6 +5,9 @@ import { NavigationEnd, Router } from '@angular/router';
 import { PanelModule } from 'primeng/panel';
 import { filter } from 'rxjs';
 
+// Importa el archivo JSON directamente
+import * as stepsData from './steps.json';
+
 @Component({
   selector: 'app-step-carousel',
   standalone: true,
@@ -26,6 +29,7 @@ export class StepCarouselComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Opciones responsivas
     this.responsiveOptions = [
       {
         breakpoint: '1600px',
@@ -59,18 +63,8 @@ export class StepCarouselComponent implements OnInit {
       },
     ];
 
-    this.items = [
-      { step: 1, label: 'Configurar SMS', path: '/sms-configuration' },
-      { step: 2, label: 'Objetivos', path: '/goals' },
-      { step: 3, label: 'Preguntas', path: '/questions' },
-      { step: 4, label: 'Ejemplo 4', path: '/ejemplo4' },
-      { step: 5, label: 'Ejemplo 5', path: '/ejemplo5' },
-      { step: 6, label: 'Ejemplo 6', path: '/ejemplo6' },
-      { step: 7, label: 'Ejemplo 7', path: '/ejemplo7' },
-      { step: 8, label: 'Ejemplo 8', path: '/ejemplo8' },
-      { step: 9, label: 'Ejemplo 9', path: '/ejemplo9' },
-      { step: 10, label: 'Ejemplo 10', path: '/ejemplo10' },
-    ];
+    // Carga los pasos desde el JSON importado
+    this.items = (stepsData as any).default;
 
     // Set the initial current path
     this.currentPath = this.router.url;

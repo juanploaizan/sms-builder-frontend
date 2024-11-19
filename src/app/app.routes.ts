@@ -33,6 +33,14 @@ export const routes: Routes = [
           ),
         title: 'Paso 2 - Gestión de objetivos - SMS Builder',
       },
+      {
+        path: 'questions',
+        loadComponent: () =>
+          import('./dashboard/questions/questions.component').then(
+            (m) => m.QuestionsComponent
+          ),
+        title: 'Paso 3 - Gestión de preguntas de investigación - SMS Builder',
+      },
 
       {
         path: '**',
