@@ -1,0 +1,174 @@
+<p-panel header="Gestión de terminos">
+    <p-toolbar styleClass="mb-4 gap-2">
+      <ng-template pTemplate="left">
+        <p-button
+          severity="success"
+          label="Nuevo"
+          icon="pi pi-plus"
+          class="mr-2"
+          (onClick)="openNew()"
+        />
+        <p-button
+          severity="danger"
+          label="Eliminar"
+          icon="pi pi-trash"
+          (onClick)="deleteSelectedTerminos()"
+          [disabled]="!selectedTerminos || !selectedTerminos.length"
+        />
+      </ng-template>
+  
+      <ng-template pTemplate="right">
+        <p-button
+          icon="pi pi-external-link"
+          severity="help"
+          label="Exportar"
+          (onClick)="dt.exportCSV()"
+        />
+      </ng-template>
+    </p-toolbar>
+  
+    <p-table
+      #dt
+      [columns]="cols"
+      [value]="terminos"
+      [(selection)]="selectedTerminos"
+      [paginator]="true"
+      [globalFilterFields]="['codigo']"
+      [rows]="5"
+      [rowHover]="true"
+      dataKey="id"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} entradas"
+      [showCurrentPageReport]="true"
+      [rowsPerPageOptions]="[5, 10, 20]"
+      [exportHeader]="'customExportHeader'"
+    >
+      <ng-template pTemplate="caption">
+        <div class="flex align-items-center justify-content-between">
+          Tabla de terminos
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="searchValue"
+              (input)="dt.filterGlobal(searchValue, 'contains')"
+              placeholder="Buscar..."
+            />
+          </span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th style="width: 4rem"><p-tableHeaderCheckbox /></th>
+          <th *ngFor="let col of columns">
+            {{ col.header }}
+          </th>
+          <th>Acciones</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-termino>
+        <tr>
+          <td>
+            <p-tableCheckbox [value]="termino" />
+          </td>
+          <td>{{ termino.id }}</td>
+          <td>{{ verSinonimos(termino.sinonimos) }}</td>
+          <td>
+            <p-button
+              icon="pi pi-pencil"
+              class="mr-2"
+              [rounded]="true"
+              [outlined]="true"
+              severity="success"
+              (onClick)="editTermino(termino)"
+            />
+            <p-button
+              icon="pi pi-trash"
+              severity="danger"
+              [rounded]="true"
+              [outlined]="true"
+              (onClick)="deleteTermino(termino)"
+            />
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-between">
+          En total hay {{ terminos ? terminos.length : 0 }} terminos/s.
+        </div>
+      </ng-template>
+    </p-table>
+  </p-panel>
+  
+  <p-dialog
+    [(visible)]="terminoDialog"
+    [style]="{ width: '450px' }"
+    header="Objetivo"
+    [modal]="true"
+    styleClass="p-fluid"
+  >
+    <ng-template pTemplate="content">
+      <form [formGroup]="form">
+        
+        @if (esEditar) {
+          <div class="field">
+            <label for="sinonimos">Sinónimos</label>
+            <p-chips 
+              [(ngModel)]="sinonimos" 
+              [ngModelOptions]="{standalone: true}"
+              [placeholder]="'Añadir palabra...'" 
+              [addOnBlur]="true">
+            </p-chips>
+          </div>
+        }
+        
+        @else {
+
+          <div class="field">
+            <label for="id">Termino de búsqueda</label>
+            <input
+              type="text"
+              pInputText
+              id="id"
+              formControlName="id"
+              required
+              autofocus
+            />
+          </div>
+
+          <div class="field">
+            <label for="descripcion">Sinónimo</label>
+            <textarea
+              id="descripcion"
+              pInputTextarea
+              formControlName="descripcion"
+              required
+              rows="3"
+              cols="20"
+            >
+            </textarea>
+          </div>
+        }
+      </form>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <p-button
+        label="Cancelar"
+        icon="pi pi-times"
+        severity="secondary"
+        [text]="true"
+        (onClick)="hideDialog()"
+      />
+      <p-button
+        label="Guardar"
+        icon="pi pi-check"
+        [text]="true"
+        [loading]="isSaving"
+        type="submit"
+        (onClick)="saveTermino()"
+      />
+    </ng-template>
+  </p-dialog>
+  
+  <p-confirmDialog [style]="{ width: '450px' }" />
