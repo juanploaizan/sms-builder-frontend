@@ -1,0 +1,156 @@
+<p-panel header="Gestión de fuentes">
+  <p-toolbar styleClass="mb-4 gap-2">
+    <ng-template pTemplate="left">
+      <p-button
+        severity="success"
+        label="Nuevo"
+        icon="pi pi-plus"
+        class="mr-2"
+        (onClick)="openNew()"
+      />
+      <p-button
+        severity="danger"
+        label="Eliminar"
+        icon="pi pi-trash"
+        (onClick)="deleteSelectedSources()"
+        [disabled]="!selectedSources || !selectedSources.length"
+      />
+    </ng-template>
+
+    <ng-template pTemplate="right">
+      <p-button
+        icon="pi pi-external-link"
+        severity="help"
+        label="Exportar"
+        (onClick)="dt.exportCSV()"
+      />
+    </ng-template>
+  </p-toolbar>
+
+  <p-table
+    #dt
+    [columns]="cols"
+    [value]="sourcesList"
+    [(selection)]="selectedSources"
+    [paginator]="true"
+    [globalFilterFields]="['nombre']"
+    [rows]="5"
+    [rowHover]="true"
+    dataKey="id"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} entradas"
+    [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    [exportHeader]="'customExportHeader'"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        Tabla de fuentes
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            type="text"
+            [(ngModel)]="searchValue"
+            (input)="dt.filterGlobal(searchValue, 'contains')"
+            placeholder="Buscar..."
+          />
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th style="width: 4rem"><p-tableHeaderCheckbox /></th>
+        <th *ngFor="let col of columns">
+          {{ col.header }}
+        </th>
+        <th>Acciones</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-source>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="source" />
+        </td>
+        <td>{{ source.nombre }}</td>
+        <td>{{ source.tipo }}</td>
+        <td>
+          <p-button
+            icon="pi pi-pencil"
+            class="mr-2"
+            [rounded]="true"
+            [outlined]="true"
+            severity="success"
+            (onClick)="editSource(source)"
+          />
+          <p-button
+            icon="pi pi-trash"
+            severity="danger"
+            [rounded]="true"
+            [outlined]="true"
+            (onClick)="deleteSource(source)"
+          />
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        En total hay {{ sourcesList ? sourcesList.length : 0 }} objetivo/s.
+      </div>
+    </ng-template>
+  </p-table>
+  <p-dialog
+    header="Fuente"
+    [(visible)]="sourceDialog"
+    [modal]="true"
+    [style]="{ width: '50rem', height: '40rem' }"
+    [draggable]="false"
+    styleClass="p-fluid"
+    contentStyle="overflow: auto;"
+  >
+    <ng-template pTemplate="content">
+      <form [formGroup]="sourceForm">
+        <div class="field">
+          <label for="nombre">Nombre</label>
+          <input
+            type="text"
+            pInputText
+            id="nombre"
+            formControlName="nombre"
+            required
+            autofocus
+          />
+        </div>
+        <div class="field">
+          <label for="tipo">Tipo</label>
+          <p-dropdown
+            formControlName="tipo"
+            [options]="options"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Selecciona un tipo"
+          />
+        </div>
+      </form>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <p-button
+        label="Cancelar"
+        icon="pi pi-times"
+        severity="secondary"
+        [text]="true"
+        (onClick)="hideDialog()"
+      />
+      <p-button
+        label="Guardar"
+        icon="pi pi-check"
+        [text]="true"
+        [loading]="isSaving"
+        type="submit"
+        (onClick)="saveSource()"
+      />
+    </ng-template>
+  </p-dialog>
+</p-panel>
+
+<p-confirmDialog [style]="{ width: '450px' }" />

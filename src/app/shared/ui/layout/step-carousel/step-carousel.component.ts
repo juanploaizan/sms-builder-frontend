@@ -28,6 +28,11 @@ export class StepCarouselComponent implements OnInit {
   ngOnInit() {
     this.responsiveOptions = [
       {
+        breakpoint: '2000px',
+        numVisible: 6,
+        numScroll: 6,
+      },
+      {
         breakpoint: '1600px',
         numVisible: 5,
         numScroll: 5,
@@ -63,12 +68,12 @@ export class StepCarouselComponent implements OnInit {
       { step: 1, label: 'Configurar SMS', path: '/sms-configuration' },
       { step: 2, label: 'Objetivos', path: '/goals' },
       { step: 3, label: 'Preguntas', path: '/questions' },
-      { step: 4, label: 'Ejemplo 4', path: '/ejemplo4' },
-      { step: 5, label: 'Criterios de selección', path: '/selection-criteria' },
-      { step: 6, label: 'Ejemplo 6', path: '/ejemplo6' },
-      { step: 7, label: 'Ejemplo 7', path: '/ejemplo7' },
-      { step: 8, label: 'Ejemplo 8', path: '/ejemplo8' },
-      { step: 9, label: 'Ejemplo 9', path: '/ejemplo9' },
+      { step: 4, label: 'Temas de búsqueda', path: '/ejemplo4' },
+      { step: 5, label: 'Atributos de calidad', path: '/ejemplo7' },
+      { step: 6, label: 'Fuentes', path: '/sources' },
+      { step: 7, label: 'Criterios de selección', path: '/selection-criteria' },
+      { step: 8, label: 'Cadena de búsqueda', path: '/ejemplo8' },
+      { step: 9, label: 'Ingreso de estudios', path: '/ejemplo9' },
       { step: 10, label: 'Ejemplo 10', path: '/ejemplo10' },
     ];
 

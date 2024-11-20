@@ -31,7 +31,15 @@ export const routes: Routes = [
           import('./dashboard/goals/goals.component').then(
             (m) => m.GoalsComponent
           ),
-        title: 'Paso 2 - Gestión de objetivos - SMS Builder',
+        title: 'Gestión de objetivos - SMS Builder',
+      },
+      {
+        path: 'sources',
+        loadComponent: () =>
+          import('./dashboard/sources/sources.component').then(
+            (m) => m.SourcesComponent
+          ),
+        title: 'Fuentes de datos - SMS Builder',
       },
       {
         path: 'selection-criteria',
@@ -39,7 +47,7 @@ export const routes: Routes = [
           import(
             './dashboard/selection-criteria/selection-criteria.component'
           ).then((m) => m.SelectionCriteriaComponent),
-        title: 'Paso 5 - Criterios de selección - SMS Builder',
+        title: 'Criterios de selección - SMS Builder',
       },
 
       {
