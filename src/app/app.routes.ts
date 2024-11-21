@@ -37,22 +37,25 @@ export const routes: Routes = [
       {
         path: 'terminos',
         loadComponent: () =>
-          import('./dashboard/terminos-busqueda/terminos-busqueda.component').then(
-            (m) => m.TerminosBusquedaComponent
-          ),
+          import(
+            './dashboard/terminos-busqueda/terminos-busqueda.component'
+          ).then((m) => m.TerminosBusquedaComponent),
         title: 'Paso 4 - Termino de búsqueda - SMS Builder',
       },
       {
         path: 'terminos',
         loadComponent: () =>
-          import('./dashboard/terminos-busqueda/terminos-busqueda.component').then(
-            (m) => m.TerminosBusquedaComponent
-          ),
+          import(
+            './dashboard/terminos-busqueda/terminos-busqueda.component'
+          ).then((m) => m.TerminosBusquedaComponent),
         title: 'Paso 4 - Termino de búsqueda - SMS Builder',
       },
       {
         path: 'quality-attributes',
-        component: QualityAttributesComponent,
+        loadComponent: () =>
+          import(
+            './dashboard/quality-attributes/quality-attributes.component'
+          ).then((m) => m.QualityAttributesComponent),
         title: 'Paso 5 - Atributos de Calidad - SMS Builder',
       },
 
