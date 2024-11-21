@@ -63,7 +63,7 @@ export class StepCarouselComponent implements OnInit {
       { step: 1, label: 'Configurar SMS', path: '/sms-configuration' },
       { step: 2, label: 'Objetivos', path: '/goals' },
       { step: 3, label: 'Preguntas', path: '/questions' },
-      { step: 4, label: 'Ejemplo 4', path: '/ejemplo4' },
+      { step: 4, label: 'Termino de búsqueda', path: '/terminos' },
       { step: 5, label: 'Atributos de calidad', path: '/quality-attributes' },
       { step: 6, label: 'Ejemplo 6', path: '/ejemplo6' },
       { step: 7, label: 'Ejemplo 7', path: '/ejemplo7' },

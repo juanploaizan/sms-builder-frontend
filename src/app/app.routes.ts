@@ -35,6 +35,22 @@ export const routes: Routes = [
         title: 'Paso 2 - Gestión de objetivos - SMS Builder',
       },
       {
+        path: 'terminos',
+        loadComponent: () =>
+          import('./dashboard/terminos-busqueda/terminos-busqueda.component').then(
+            (m) => m.TerminosBusquedaComponent
+          ),
+        title: 'Paso 4 - Termino de búsqueda - SMS Builder',
+      },
+      {
+        path: 'terminos',
+        loadComponent: () =>
+          import('./dashboard/terminos-busqueda/terminos-busqueda.component').then(
+            (m) => m.TerminosBusquedaComponent
+          ),
+        title: 'Paso 4 - Termino de búsqueda - SMS Builder',
+      },
+      {
         path: 'quality-attributes',
         component: QualityAttributesComponent,
         title: 'Paso 5 - Atributos de Calidad - SMS Builder',
