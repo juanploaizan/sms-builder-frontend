@@ -42,6 +42,14 @@ export const routes: Routes = [
         title: 'Fuentes de datos - SMS Builder',
       },
       {
+        path: 'terminos',
+        loadComponent: () =>
+          import('./dashboard/terminos-busqueda/terminos-busqueda.component').then(
+            (m) => m.TerminosBusquedaComponent
+          ),
+        title: 'Paso 4 - Termino de búsqueda - SMS Builder',
+      },
+      {
         path: 'selection-criteria',
         loadComponent: () =>
           import(
