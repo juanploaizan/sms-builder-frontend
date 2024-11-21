@@ -1,3 +1,4 @@
+import { environment } from '@/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -6,7 +7,8 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthService {
-  private API_URL = 'https://localhost:8443/api';
+  private API_URL = environment.apiUrl;
+  private LOGIN_PATH = environment.loginPath;
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -16,7 +18,7 @@ export class AuthService {
 
     return this.http
       .post(
-        `${this.API_URL}/seguridad/login`,
+        this.API_URL + this.LOGIN_PATH,
         { username, password },
         { observe: 'response' }
       )

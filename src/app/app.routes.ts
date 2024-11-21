@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { publicGuard, privateGuard } from './core/guards/auth.guard';
 import { LayoutComponent } from './shared/ui/layout/layout.component';
 import { RootPageComponent } from './dashboard/features/root-page/root-page.component';
+import { QualityAttributesComponent } from './dashboard/quality-attributes/quality-attributes.component';
 
 export const routes: Routes = [
   {
@@ -34,12 +35,9 @@ export const routes: Routes = [
         title: 'Paso 2 - Gestión de objetivos - SMS Builder',
       },
       {
-        path: 'selection-criteria',
-        loadComponent: () =>
-          import(
-            './dashboard/selection-criteria/selection-criteria.component'
-          ).then((m) => m.SelectionCriteriaComponent),
-        title: 'Paso 5 - Criterios de selección - SMS Builder',
+        path: 'quality-attributes',
+        component: QualityAttributesComponent,
+        title: 'Paso 5 - Atributos de Calidad - SMS Builder',
       },
 
       {
