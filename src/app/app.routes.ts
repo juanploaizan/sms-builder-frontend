@@ -49,7 +49,14 @@ export const routes: Routes = [
           ).then((m) => m.SelectionCriteriaComponent),
         title: 'Criterios de selección - SMS Builder',
       },
-
+      {
+        path: 'search-strings',
+        loadComponent: () =>
+          import('./dashboard/search-strings/search-strings.component').then(
+            (m) => m.SearchStringsComponent
+          ),
+        title: 'Cadenas de búsqueda - SMS Builder',
+      },
       {
         path: '**',
         redirectTo: '',

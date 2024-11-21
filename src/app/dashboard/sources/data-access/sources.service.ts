@@ -19,6 +19,10 @@ export class SourcesService {
     return this.http.get<Source>(`${this.API_URL}/${id}`);
   }
 
+  getSourcesDatabaseType(): Observable<Source[]> {
+    return this.http.get<Source[]>(`${this.API_URL}?type=BASE_DATOS`);
+  }
+
   createSource(source: Source): Observable<Source> {
     return this.http.post<Source>(`${this.API_URL}`, source);
   }

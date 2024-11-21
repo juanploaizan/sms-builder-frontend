@@ -100,13 +100,13 @@
     </ng-template>
   </p-table>
   <p-dialog
+    #sd
     header="Fuente"
     [(visible)]="sourceDialog"
     [modal]="true"
-    [style]="{ width: '50rem', height: '40rem' }"
+    [style]="{ width: '50rem' }"
     [draggable]="false"
     styleClass="p-fluid"
-    contentStyle="overflow: auto;"
   >
     <ng-template pTemplate="content">
       <form [formGroup]="sourceForm">
@@ -124,6 +124,7 @@
         <div class="field">
           <label for="tipo">Tipo</label>
           <p-dropdown
+            [appendTo]="sd"
             formControlName="tipo"
             [options]="options"
             optionLabel="label"

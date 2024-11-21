@@ -1,1 +1,208 @@
-<p>search-strings works!</p>
+<p-panel header="Gestión de cadenas de búsqueda">
+  <p-toolbar styleClass="mb-4 gap-2">
+    <ng-template pTemplate="left">
+      <p-button
+        severity="success"
+        label="Nuevo"
+        icon="pi pi-plus"
+        class="mr-2"
+        (onClick)="openNew()"
+      />
+      <p-button
+        severity="danger"
+        label="Eliminar"
+        icon="pi pi-trash"
+        (onClick)="deleteSelectedSearchStrings()"
+        [disabled]="!selectedSearchStrings || !selectedSearchStrings.length"
+      />
+    </ng-template>
+
+    <ng-template pTemplate="right">
+      <p-button
+        icon="pi pi-external-link"
+        severity="help"
+        label="Exportar"
+        (onClick)="dt.exportCSV()"
+      />
+    </ng-template>
+  </p-toolbar>
+
+  <p-table
+    #dt
+    [columns]="cols"
+    [value]="searchStringsList"
+    [(selection)]="selectedSearchStrings"
+    [paginator]="true"
+    [globalFilterFields]="['consulta']"
+    [rows]="5"
+    [rowHover]="true"
+    dataKey="id"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} entradas"
+    [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    [exportHeader]="'customExportHeader'"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        Tabla de fuentes
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            type="text"
+            [(ngModel)]="searchValue"
+            (input)="dt.filterGlobal(searchValue, 'contains')"
+            placeholder="Buscar..."
+          />
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th style="width: 4rem"><p-tableHeaderCheckbox /></th>
+        <th *ngFor="let col of columns">
+          {{ col.header }}
+        </th>
+        <th>Acciones</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-searchString>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="searchString" />
+        </td>
+        <td>{{ searchString.baseDatos.nombre }}</td>
+        <td>
+          <p-button
+            (onClick)="showConsultaDialog()"
+            icon="pi pi-eye"
+            [rounded]="true"
+          />
+          <p-dialog
+            header="Consulta"
+            [modal]="true"
+            [(visible)]="visible"
+            [style]="{ width: '50rem' }"
+            [draggable]="false"
+          >
+            <p>
+              {{ searchString.consulta }}
+            </p>
+          </p-dialog>
+        </td>
+        <td>{{ searchString.fechaConsulta | date : "yyyy-MM-dd" }}</td>
+        <td>{{ searchString.resultadoPreliminar }}</td>
+        <td>{{ searchString.resultadoFinal }}</td>
+        <td>
+          <p-button
+            icon="pi pi-pencil"
+            class="mr-2"
+            [rounded]="true"
+            [outlined]="true"
+            severity="success"
+            (onClick)="editSearchString(searchString)"
+          />
+          <p-button
+            icon="pi pi-trash"
+            severity="danger"
+            [rounded]="true"
+            [outlined]="true"
+            (onClick)="deleteSearchString(searchString)"
+          />
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        En total hay
+        {{ searchStringsList ? searchStringsList.length : 0 }} objetivo/s.
+      </div>
+    </ng-template>
+  </p-table>
+</p-panel>
+
+<p-dialog
+  #ssd
+  header="Cadena de búsqueda"
+  [(visible)]="searchStringDialog"
+  [style]="{ width: '50rem' }"
+  [modal]="true"
+  [draggable]="false"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <form [formGroup]="searchStringForm">
+      <div class="field">
+        <label for="baseDatos">Base de datos</label>
+        <p-dropdown
+          [options]="sourcesList"
+          formControlName="baseDatos"
+          optionLabel="nombre"
+          placeholder="Selecciona una base de datos"
+        />
+      </div>
+      <div class="field">
+        <label for="consulta">Consulta</label>
+        <textarea
+          id="consulta"
+          rows="5"
+          cols="30"
+          pInputTextarea
+          formControlName="consulta"
+          required
+        ></textarea>
+      </div>
+      <div class="field">
+        <label for="fechaConsulta">Fecha de la consulta</label>
+        <p-calendar
+          formControlName="fechaConsulta"
+          [showIcon]="true"
+          [iconDisplay]="'input'"
+          [maxDate]="maxDate"
+          [appendTo]="ssd"
+          dateFormat="yy-mm-dd"
+        />
+      </div>
+      <div class="field">
+        <label for="resultadoPreliminar">Resultado preliminar</label>
+        <p-inputNumber
+          id="resultadoPreliminar"
+          inputId="integeronly"
+          formControlName="resultadoPreliminar"
+          [showButtons]="true"
+          required
+        />
+      </div>
+      <div class="field">
+        <label for="resultadoFinal">Resultado final</label>
+        <p-inputNumber
+          id="resultadoFinal"
+          inputId="integeronly"
+          formControlName="resultadoFinal"
+          [showButtons]="true"
+          required
+        />
+      </div>
+    </form>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <p-button
+      label="Cancelar"
+      icon="pi pi-times"
+      severity="secondary"
+      [text]="true"
+      (onClick)="hideDialog()"
+    />
+    <p-button
+      label="Guardar"
+      icon="pi pi-check"
+      [text]="true"
+      [loading]="isSaving"
+      type="submit"
+      (onClick)="saveSearchString()"
+    />
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{ width: '450px' }" />

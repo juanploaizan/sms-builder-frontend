@@ -72,7 +72,7 @@ export class StepCarouselComponent implements OnInit {
       { step: 5, label: 'Atributos de calidad', path: '/ejemplo7' },
       { step: 6, label: 'Fuentes', path: '/sources' },
       { step: 7, label: 'Criterios de selección', path: '/selection-criteria' },
-      { step: 8, label: 'Cadena de búsqueda', path: '/ejemplo8' },
+      { step: 8, label: 'Cadena de búsqueda', path: '/search-strings' },
       { step: 9, label: 'Ingreso de estudios', path: '/ejemplo9' },
       { step: 10, label: 'Ejemplo 10', path: '/ejemplo10' },
     ];
