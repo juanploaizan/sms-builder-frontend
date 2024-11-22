@@ -44,9 +44,9 @@ export const routes: Routes = [
       {
         path: 'terminos',
         loadComponent: () =>
-          import('./dashboard/terminos-busqueda/terminos-busqueda.component').then(
-            (m) => m.TerminosBusquedaComponent
-          ),
+          import(
+            './dashboard/terminos-busqueda/terminos-busqueda.component'
+          ).then((m) => m.TerminosBusquedaComponent),
         title: 'Paso 4 - Termino de búsqueda - SMS Builder',
       },
       {
@@ -64,6 +64,14 @@ export const routes: Routes = [
             (m) => m.SearchStringsComponent
           ),
         title: 'Cadenas de búsqueda - SMS Builder',
+      },
+      {
+        path: 'screening',
+        loadComponent: () =>
+          import('./dashboard/screening/screening.component').then(
+            (m) => m.ScreeningComponent
+          ),
+        title: 'Screening - SMS Builder',
       },
       {
         path: '**',

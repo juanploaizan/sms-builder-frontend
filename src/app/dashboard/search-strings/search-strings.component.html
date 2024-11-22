@@ -134,11 +134,12 @@
   <ng-template pTemplate="content">
     <form [formGroup]="searchStringForm">
       <div class="field">
-        <label for="baseDatos">Base de datos</label>
+        <label for="fuente">Base de datos</label>
         <p-dropdown
           [options]="sourcesList"
-          formControlName="baseDatos"
+          formControlName="fuente"
           optionLabel="nombre"
+          optionValue="id"
           placeholder="Selecciona una base de datos"
         />
       </div>

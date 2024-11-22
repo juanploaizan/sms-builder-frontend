@@ -95,7 +95,7 @@ export class SearchStringsComponent implements OnInit {
       consulta: ['', Validators.required],
       resultadoPreliminar: ['', Validators.required],
       resultadoFinal: ['', Validators.required],
-      baseDatos: new FormControl<Source | null>(null, Validators.required),
+      fuente: ['', Validators.required],
       fechaConsulta: new FormControl<Date | null>(null, Validators.required),
     });
   }

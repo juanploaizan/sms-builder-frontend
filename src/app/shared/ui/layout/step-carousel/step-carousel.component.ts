@@ -68,19 +68,13 @@ export class StepCarouselComponent implements OnInit {
       { step: 1, label: 'Configurar SMS', path: '/sms-configuration' },
       { step: 2, label: 'Objetivos', path: '/goals' },
       { step: 3, label: 'Preguntas', path: '/questions' },
-      { step: 4, label: 'Termino de búsqueda', path: '/terminos' },
-      { step: 5, label: 'Criterios de selección', path: '/selection-criteria' },
-      { step: 6, label: 'Ejemplo 6', path: '/ejemplo6' },
-      { step: 7, label: 'Ejemplo 7', path: '/ejemplo7' },
-      { step: 8, label: 'Ejemplo 8', path: '/ejemplo8' },
-      { step: 9, label: 'Ejemplo 9', path: '/ejemplo9' },
-      { step: 4, label: 'Temas de búsqueda', path: '/ejemplo4' },
-      { step: 5, label: 'Atributos de calidad', path: '/ejemplo7' },
+      { step: 4, label: 'Términos de búsqueda', path: '/terminos' },
+      { step: 5, label: 'Criterios de calidad', path: '/' },
       { step: 6, label: 'Fuentes', path: '/sources' },
       { step: 7, label: 'Criterios de selección', path: '/selection-criteria' },
       { step: 8, label: 'Cadena de búsqueda', path: '/search-strings' },
       { step: 9, label: 'Ingreso de estudios', path: '/ejemplo9' },
-      { step: 10, label: 'Ejemplo 10', path: '/ejemplo10' },
+      { step: 10, label: 'Selección de estudios', path: '/screening' },
     ];
 
     // Set the initial current path
