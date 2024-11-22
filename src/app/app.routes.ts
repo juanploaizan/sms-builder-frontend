@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { publicGuard, privateGuard } from './core/guards/auth.guard';
 import { LayoutComponent } from './shared/ui/layout/layout.component';
 import { RootPageComponent } from './dashboard/features/root-page/root-page.component';
-import { QualityAttributesComponent } from './dashboard/quality-attributes/quality-attributes.component';
 
 export const routes: Routes = [
   {
@@ -32,7 +31,15 @@ export const routes: Routes = [
           import('./dashboard/goals/goals.component').then(
             (m) => m.GoalsComponent
           ),
-        title: 'Paso 2 - Gestión de objetivos - SMS Builder',
+        title: 'Gestión de objetivos - SMS Builder',
+      },
+      {
+        path: 'sources',
+        loadComponent: () =>
+          import('./dashboard/sources/sources.component').then(
+            (m) => m.SourcesComponent
+          ),
+        title: 'Fuentes de datos - SMS Builder',
       },
       {
         path: 'terminos',
@@ -46,9 +53,9 @@ export const routes: Routes = [
         path: 'terminos',
         loadComponent: () =>
           import(
-            './dashboard/terminos-busqueda/terminos-busqueda.component'
-          ).then((m) => m.TerminosBusquedaComponent),
-        title: 'Paso 4 - Termino de búsqueda - SMS Builder',
+            './dashboard/selection-criteria/selection-criteria.component'
+          ).then((m) => m.SelectionCriteriaComponent),
+        title: 'Criterios de selección - SMS Builder',
       },
       {
         path: 'quality-attributes',
@@ -56,9 +63,24 @@ export const routes: Routes = [
           import(
             './dashboard/quality-attributes/quality-attributes.component'
           ).then((m) => m.QualityAttributesComponent),
-        title: 'Paso 5 - Atributos de Calidad - SMS Builder',
+        title: 'Atributos de Calidad - SMS Builder',
       },
-
+      {
+        path: 'search-strings',
+        loadComponent: () =>
+          import('./dashboard/search-strings/search-strings.component').then(
+            (m) => m.SearchStringsComponent
+          ),
+        title: 'Cadenas de búsqueda - SMS Builder',
+      },
+      {
+        path: 'screening',
+        loadComponent: () =>
+          import('./dashboard/screening/screening.component').then(
+            (m) => m.ScreeningComponent
+          ),
+        title: 'Screening - SMS Builder',
+      },
       {
         path: '**',
         redirectTo: '',
