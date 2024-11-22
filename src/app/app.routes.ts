@@ -3,6 +3,7 @@ import { publicGuard, privateGuard } from './core/guards/auth.guard';
 import { LayoutComponent } from './shared/ui/layout/layout.component';
 import { RootPageComponent } from './dashboard/features/root-page/root-page.component';
 
+
 export const routes: Routes = [
   {
     path: 'auth',
