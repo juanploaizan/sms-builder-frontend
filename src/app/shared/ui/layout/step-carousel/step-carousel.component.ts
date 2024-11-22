@@ -70,6 +70,7 @@ export class StepCarouselComponent implements OnInit {
       { step: 8, label: 'Ejemplo 8', path: '/ejemplo8' },
       { step: 9, label: 'Ejemplo 9', path: '/ejemplo9' },
       { step: 10, label: 'Ejemplo 10', path: '/ejemplo10' },
+      { step: 11, label: 'Remover estudios duplicados', path: '/duplicate-studies' },
     ];
 
     // Set the initial current path

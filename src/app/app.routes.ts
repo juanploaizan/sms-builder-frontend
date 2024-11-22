@@ -58,6 +58,14 @@ export const routes: Routes = [
           ).then((m) => m.QualityAttributesComponent),
         title: 'Paso 5 - Atributos de Calidad - SMS Builder',
       },
+      {
+        path: 'duplicate-studies',
+        loadComponent: () =>
+          import(
+            './dashboard/duplicate-studies/duplicate-studies.component'
+          ).then((m) => m.DuplicateStudiesComponent),
+        title: 'Paso 11 - Remover Estudios Duplicados - SMS Builder',
+      },
 
       {
         path: '**',
