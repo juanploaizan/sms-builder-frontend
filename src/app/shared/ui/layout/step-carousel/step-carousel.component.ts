@@ -75,6 +75,7 @@ export class StepCarouselComponent implements OnInit {
       { step: 8, label: 'Cadena de búsqueda', path: '/search-strings' },
       { step: 9, label: 'Ingreso de estudios', path: '/ejemplo9' },
       { step: 10, label: 'Selección de estudios', path: '/screening' },
+      { step: 11, label: 'Remover estudios duplicados', path: '/duplicate-studies' },
     ];
 
     // Set the initial current path

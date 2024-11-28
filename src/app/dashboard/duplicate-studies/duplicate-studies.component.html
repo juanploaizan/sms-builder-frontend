@@ -1,0 +1,89 @@
+<p-panel header="Gestión de estudios duplicados">
+  <p-toolbar styleClass="mb-4 gap-2">
+    <ng-template pTemplate="left">
+      <p-button
+        severity="success"
+        label="Sugerir"
+        icon="pi pi-search"
+        class="mr-2"
+      />
+    </ng-template>
+
+    <ng-template pTemplate="right">
+      <p-button
+        icon="pi pi-external-link"
+        severity="help"
+        label="Exportar"
+        (onClick)="dt.exportCSV()"
+      />
+    </ng-template>
+  </p-toolbar>
+
+  <p-table
+    #dt
+    [columns]="cols"
+    [value]="studies"
+    [(selection)]="selectedStudies"
+    [paginator]="true"
+    [globalFilterFields]="['id']"
+    [rows]="5"
+    [rowHover]="true"
+    dataKey="id"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    currentPageReportTemplate="Mostrando del {first} al {last} de {totalRecords} entradas"
+    [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    [exportHeader]="'customExportHeader'"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        Tabla de estudios
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            type="text"
+            [(ngModel)]="searchValue"
+            (input)="dt.filterGlobal(searchValue, 'contains')"
+            placeholder="Buscar..."
+          />
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th style="width: 4rem"><p-tableHeaderCheckbox /></th>
+        <th *ngFor="let col of columns">
+          {{ col.header }}
+        </th>
+        <th>Acciones</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-study>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="study" />
+        </td>
+        <td>{{ study.nombreFuente }}</td>
+        <td>{{ study.nombre }}</td>
+        <td>{{ study.autores }}</td>
+        <td>
+          <p-button
+            icon="pi pi-pencil"
+            class="mr-2"
+            [rounded]="true"
+            [outlined]="true"
+            severity="success"
+            (onClick)="editStudy(study)"
+          />
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        En total hay
+        {{ studies ? studies.length : 0 }} estudios/s
+      </div>
+    </ng-template>
+  </p-table>
+</p-panel>
