@@ -69,7 +69,7 @@ export class StepCarouselComponent implements OnInit {
       { step: 2, label: 'Objetivos', path: '/goals' },
       { step: 3, label: 'Preguntas', path: '/questions' },
       { step: 4, label: 'Términos de búsqueda', path: '/terminos' },
-      { step: 5, label: 'Criterios de calidad', path: '/' },
+      { step: 5, label: 'Criterios de calidad', path: '/quality-attributes' },
       { step: 6, label: 'Fuentes', path: '/sources' },
       { step: 7, label: 'Criterios de selección', path: '/selection-criteria' },
       { step: 8, label: 'Cadena de búsqueda', path: '/search-strings' },

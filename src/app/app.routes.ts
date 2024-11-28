@@ -53,9 +53,9 @@ export const routes: Routes = [
         path: 'terminos',
         loadComponent: () =>
           import(
-            './dashboard/terminos-busqueda/terminos-busqueda.component'
-          ).then((m) => m.TerminosBusquedaComponent),
-        title: 'Paso 4 - Termino de búsqueda - SMS Builder',
+            './dashboard/selection-criteria/selection-criteria.component'
+          ).then((m) => m.SelectionCriteriaComponent),
+        title: 'Criterios de selección - SMS Builder',
       },
       {
         path: 'selection-criteria',
@@ -71,15 +71,7 @@ export const routes: Routes = [
           import(
             './dashboard/quality-attributes/quality-attributes.component'
           ).then((m) => m.QualityAttributesComponent),
-        title: 'Paso 5 - Atributos de Calidad - SMS Builder',
-      },
-      {
-        path: 'duplicate-studies',
-        loadComponent: () =>
-          import(
-            './dashboard/duplicate-studies/duplicate-studies.component'
-          ).then((m) => m.DuplicateStudiesComponent),
-        title: 'Paso 11 - Remover Estudios Duplicados - SMS Builder',
+        title: 'Atributos de Calidad - SMS Builder',
       },
       {
         path: 'search-strings',
@@ -97,6 +89,23 @@ export const routes: Routes = [
           ),
         title: 'Screening - SMS Builder',
       },
+      {
+        path: 'duplicate-studies',
+        loadComponent: () =>
+          import(
+            './dashboard/duplicate-studies/duplicate-studies.component'
+          ).then((m) => m.DuplicateStudiesComponent),
+        title: 'Paso 11 - Remover Estudios Duplicados - SMS Builder',
+      },
+      {
+        path: 'search-strings',
+        loadComponent: () =>
+          import('./dashboard/search-strings/search-strings.component').then(
+            (m) => m.SearchStringsComponent
+          ),
+        title: 'Cadenas de búsqueda - SMS Builder',
+      },
+
       {
         path: '**',
         redirectTo: '',
