@@ -17,11 +17,9 @@ export const JwtInterceptor: HttpInterceptorFn = (
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  // Obtener el token
   const token = authService.getToken();
 
-  // Clonar la solicitud con el token de autorización si existe
-  if (token) {
+  if (authService.isValidToken(token)) {
     req = req.clone({
       setHeaders: { Authorization: `Bearer ${token}` },
     });
@@ -30,11 +28,14 @@ export const JwtInterceptor: HttpInterceptorFn = (
   // Manejo de errores
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-      if (error.status === 401) {
+      if (error.status === 401 && router.url !== '/auth/login') {
         authService.logout();
-        router.navigate(['/auth/login']);
+        router.navigate(['/auth/login']).catch((navError) => {
+          console.error('Navigation error:', navError);
+        });
       }
-      return throwError(() => new Error(error.message));
+      console.error('Request error:', error);
+      return throwError(() => error);
     })
   );
 };

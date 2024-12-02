@@ -5,8 +5,6 @@ import { NavigationEnd, Router } from '@angular/router';
 import { PanelModule } from 'primeng/panel';
 import { filter } from 'rxjs';
 import { StepsService } from './step.service';
-
-// Importa el archivo JSON directamente
 import * as stepsData from './steps.json';
 
 @Component({

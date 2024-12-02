@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
 import { PrimeNGConfig } from 'primeng/api';
 
 @Component({

@@ -37,14 +37,17 @@ export class TopbarComponent implements OnInit {
       {
         label: 'Inicio',
         icon: 'pi pi-home',
+        routerLink: '/',
       },
       {
         label: 'Configuración',
         icon: 'pi pi-cog',
+        routerLink: '/settings',
       },
       {
         label: 'Github',
         icon: 'pi pi-github',
+        url: 'https://github.com/juanploaizan/sms-builder-frontend',
       },
     ];
 

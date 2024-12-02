@@ -1,0 +1,74 @@
+<p-panel header="Selección de referencias">
+  <p-paginator
+    [rows]="1"
+    [totalRecords]="screenings.length"
+    (onPageChange)="paginate($event)"
+  ></p-paginator>
+  <div *ngIf="currentScreening" class="flex flex-column mt-3">
+    <p-panel header="Información del Artículo" class="mb-3">
+      <div class="p-grid p-align-center p-nogutter">
+        <div class="col-12 md-6">
+          <div class="field-checkbox">
+            <p-checkbox
+              id="seleccionada"
+              [(ngModel)]="currentScreening.seleccionada"
+              binary="true"
+            ></p-checkbox>
+            <label for="seleccionada" class="ml-2">Seleccionada</label>
+          </div>
+        </div>
+        <div class="col-12 md-6">
+          <label for="nombre">Nombre:</label>
+          <h3 id="nombre">{{ currentScreening.nombre }}</h3>
+        </div>
+        <div class="col-12 md-6">
+          <label for="year">Año:</label>
+          <h4 id="year">{{ currentScreening.year }}</h4>
+        </div>
+        <div class="col-12 flex flex-column">
+          <label for="relevancia">Relevancia:</label>
+          <p-rating
+            id="relevancia"
+            [(ngModel)]="currentScreening.relevancia"
+            [cancel]="false"
+            stars="5"
+            class="mt-2"
+          ></p-rating>
+        </div>
+
+        <div class="col-12 text-right mt-2">
+          <button
+            pButton
+            type="button"
+            label="Editar"
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-info"
+            (click)="editScreening()"
+          ></button>
+        </div>
+      </div>
+    </p-panel>
+
+    <p-panel header="Resumen" class="mb-3">
+      <p>{{ currentScreening.resumen }}</p>
+    </p-panel>
+
+    <p-panel header="Palabras Clave" class="mb-3">
+      <p-chip *ngFor="let keyword of keywords" [label]="keyword" class="pr-2" />
+    </p-panel>
+
+    <p-panel header="Tags" class="mb-3">
+      <p-chips [(ngModel)]="currentScreening.tags"></p-chips>
+    </p-panel>
+
+    <p-panel header="Nota" class="mb-3">
+      <textarea
+        pInputTextarea
+        [(ngModel)]="currentScreening.nota"
+        rows="3"
+        cols="30"
+        class="w-full"
+      ></textarea>
+    </p-panel>
+  </div>
+</p-panel>
