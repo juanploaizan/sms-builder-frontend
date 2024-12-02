@@ -16,37 +16,92 @@
   },
   {
     "step": 4,
-    "label": "prueba",
-    "path": "/ejemplo4"
+    "label": "Término de búsqueda",
+    "path": "/termino-busqueda"
   },
   {
     "step": 5,
-    "label": "Ejemplo 5",
-    "path": "/ejemplo5"
+    "label": "Atributos de calidad 5",
+    "path": "/atributos-calidad"
   },
   {
     "step": 6,
-    "label": "Ejemplo 6",
-    "path": "/ejemplo6"
+    "label": "Fuente",
+    "path": "/fuente"
   },
   {
     "step": 7,
-    "label": "Ejemplo 7",
-    "path": "/ejemplo7"
+    "label": "Criterio de seleccion",
+    "path": "/criterio-seleccion"
   },
   {
     "step": 8,
-    "label": "Ejemplo 8",
-    "path": "/ejemplo8"
+    "label": "Cadena de búsqueda",
+    "path": "/cadena-busqueda"
   },
   {
     "step": 9,
-    "label": "Ejemplo 9",
-    "path": "/ejemplo9"
+    "label": "Importar estudios de BD",
+    "path": "/importar-estudios-bd"
   },
   {
     "step": 10,
-    "label": "Ejemplo 10",
-    "path": "/ejemplo10"
+    "label": "Importar estudios de Inclusion Directa",
+    "path": "/importar-estudios-id"
+  },
+  {
+    "step": 11,
+    "label": "Remover estudios duplicados",
+    "path": "/remover-estudios-duplicados"
+  },
+  {
+    "step": 12,
+    "label": "Seleccionar",
+    "path": "/seleccionar"
+  },
+  {
+    "step": 13,
+    "label": "Actualizar metadatos",
+    "path": "/actualizar-metadatos"
+  },
+  {
+    "step": 14,
+    "label": "Evaluar referencia",
+    "path": "/evaluar-referencia"
+  },
+  {
+    "step": 15,
+    "label": "Importar estudios de bola de nieve",
+    "path": "/importar-estudios-bola-nieve"
+  },
+  {
+    "step": 16,
+    "label": "Remover estudios duplicados",
+    "path": "/remover-estudios-duplicados2"
+  },
+  {
+    "step": 17,
+    "label": "Seleccionar",
+    "path": "/seleccionar2"
+  },
+  {
+    "step": 18,
+    "label": "Ver seleccionados",
+    "path": "/ver-seleccionados"
+  },
+  {
+    "step": 19,
+    "label": "Actualizar Metadatos",
+    "path": "/actualizar-metadatos2"
+  },
+  {
+    "step": 20,
+    "label": "Analizar Referencias",
+    "path": "/analizar-referencias"
+  },
+  {
+    "step": 21,
+    "label": "Evaluar Referencias",
+    "path": "/evaluar-referencias2"
   }
 ]

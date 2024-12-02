@@ -1,101 +1,131 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { CheckboxModule } from 'primeng/checkbox';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { PanelModule } from 'primeng/panel';
-import { TableModule } from 'primeng/table';
-import { DialogModule } from 'primeng/dialog';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import { QuestionService } from './data-access/question.service';
 import { GoalService } from '../goals/data-access/goal.service';
+import { Question } from './api/question';
 import { Goal } from '../goals/api/goal';
+import { MessageService } from 'primeng/api';
+import {CommonModule} from '@angular/common';
+import {TableModule} from 'primeng/table';
+import {ButtonModule} from 'primeng/button';
+import {InputTextareaModule} from 'primeng/inputtextarea';
+import {InputTextModule} from 'primeng/inputtext';
 
 @Component({
   selector: 'app-questions',
   standalone: true,
-  imports: [
-    ButtonModule,
-    CheckboxModule,
-    InputTextareaModule,
-    PanelModule,
-    TableModule,
-    DialogModule,
-  ],
   templateUrl: './questions.component.html',
   styleUrls: ['./questions.component.scss'],
+  imports: [
+    // Angular Common Modules
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+
+    // PrimeNG Modules
+    TableModule,
+    ButtonModule,
+    InputTextareaModule,
+    InputTextModule,
+  ],
+  providers: [MessageService], // Agrega el servicio aquí
 })
 export class QuestionsComponent implements OnInit {
-  questionsForm: FormGroup;
-  questions: {
-    code: string;
-    question: string;
-    relatedGoals: string[];
-    editing?: boolean;
-  }[] = [];
+  formQuestion!: FormGroup;
+  questions: Question[] = [];
   goals: Goal[] = [];
   selectedGoals: Goal[] = [];
-  showTopicDialog: boolean = false;
-  newTopic: { name: string; tags: string[] } = { name: '', tags: [] };
+  isEditMode = false;
 
-  constructor(private fb: FormBuilder, private goalService: GoalService) {
-    this.questionsForm = this.fb.group({
-      code: ['', Validators.required],
-      question: ['', Validators.required],
+  constructor(
+    private fb: FormBuilder,
+    private questionService: QuestionService,
+    private goalService: GoalService,
+    private messageService: MessageService // Inyección del servicio
+  ) {}
+
+  ngOnInit(): void {
+    this.formQuestion = this.fb.group({
+      id: [''],
+      codigo: ['', Validators.required],
+      descripcion: ['', Validators.required],
     });
+
+    this.loadGoals();
+    this.loadQuestions();
   }
 
-  ngOnInit() {
+  loadGoals() {
     this.goalService.getGoals().subscribe((data) => {
       this.goals = data;
     });
   }
 
-  onGoalToggle(goal: Goal) {
-    const index = this.selectedGoals.indexOf(goal);
-    if (index === -1) {
-      this.selectedGoals.push(goal);
+  loadQuestions() {
+    this.questionService.getQuestions().subscribe((data) => {
+      this.questions = data;
+    });
+  }
+
+  saveQuestion() {
+    const question: Question = {
+      ...this.formQuestion.value,
+      objetivos: this.selectedGoals.map((goal) => goal.id),
+      topicos: [],
+    };
+
+    if (this.isEditMode) {
+      this.questionService.updateQuestion(question).subscribe(() => {
+        this.loadQuestions();
+        this.resetForm();
+        this.showMessage('success', 'Pregunta actualizada con éxito');
+      });
     } else {
-      this.selectedGoals.splice(index, 1);
+      this.questionService.createQuestion(question).subscribe(() => {
+        this.loadQuestions();
+        this.resetForm();
+        this.showMessage('success', 'Pregunta creada con éxito');
+      });
     }
   }
 
-  onSubmit() {
-    if (this.questionsForm.valid && this.selectedGoals.length > 0) {
-      const newQuestion = {
-        code: this.questionsForm.value.code,
-        question: this.questionsForm.value.question,
-        relatedGoals: this.selectedGoals.map((goal) => goal.descripcion),
-      };
-      this.questions.push(newQuestion);
-      this.questionsForm.reset();
-      this.selectedGoals = [];
-    } else {
-      alert('Debes seleccionar al menos un objetivo.');
-    }
+  addTopicToQuestion(question: Question) {
+    // Lógica para agregar un tópico
   }
 
-  editQuestion(question: any) {
-    question.editing = true;
+  editQuestion(question: Question) {
+    this.isEditMode = true;
+    this.formQuestion.patchValue(question);
+    this.selectedGoals = this.goals.filter((goal) =>
+      question.objetivos.includes(goal.id)
+    );
   }
 
-  deleteQuestion(question: any) {
-    const index = this.questions.indexOf(question);
-    if (index > -1) {
-      this.questions.splice(index, 1);
-    }
+  deleteQuestion(question: Question) {
+    if (!question.id) return;
+    this.questionService.deleteQuestion(question.id).subscribe(() => {
+      this.loadQuestions();
+      this.showMessage('success', 'Pregunta eliminada con éxito');
+    });
   }
 
-  addTopic(question: any) {
-    this.showTopicDialog = true;
-    this.newTopic = { name: '', tags: [] };
+  resetForm() {
+    this.isEditMode = false;
+    this.formQuestion.reset();
+    this.selectedGoals = [];
   }
 
-  addTopicToQuestion() {
-    this.showTopicDialog = false;
-    console.log('Nuevo tópico:', this.newTopic);
-    // Aquí puedes manejar la lógica para añadir tópicos a la pregunta
+  showMessage(severity: string, detail: string) {
+    this.messageService.add({
+      severity,
+      detail,
+      life: 3000,
+    });
   }
+
+  getGoalDescription(goalId: string): string {
+    const goal = this.goals.find((g) => g.id === goalId);
+    return goal ? goal.codigo : 'Desconocido';
+  }
+
 }

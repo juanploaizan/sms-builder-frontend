@@ -4,6 +4,7 @@ import { CardModule } from 'primeng/card';
 import { NavigationEnd, Router } from '@angular/router';
 import { PanelModule } from 'primeng/panel';
 import { filter } from 'rxjs';
+import { StepsService } from './step.service';
 
 // Importa el archivo JSON directamente
 import * as stepsData from './steps.json';
@@ -20,7 +21,7 @@ export class StepCarouselComponent implements OnInit {
   responsiveOptions: any[] | undefined;
   currentPath: string = '';
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private stepsService: StepsService) {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
@@ -66,12 +67,34 @@ export class StepCarouselComponent implements OnInit {
     // Carga los pasos desde el JSON importado
     this.items = (stepsData as any).default;
 
-    // Set the initial current path
-    this.currentPath = this.router.url;
+    // Establece el paso inicial como el primero (step 1)
+    this.stepsService.changePasoActualByOrden(1).subscribe({
+      next: () => {
+        this.currentPath = this.items[0].path;
+        this.router.navigate([this.currentPath]);
+      },
+      error: (err) => {
+        console.error('Error al establecer el paso inicial:', err);
+      },
+    });
   }
 
   onStepClick(path: string) {
-    this.router.navigate([path]);
+    // Encuentra el orden correspondiente al path en el archivo JSON
+    const stepItem = this.items.find((item) => item.path === path);
+    if (stepItem) {
+      this.router.navigate([path]);
+      this.stepsService.changePasoActualByOrden(stepItem.step).subscribe({
+        next: (response) => {
+          console.log(response.message);
+        },
+        error: (err) => {
+          console.error('Error al cambiar el paso:', err);
+        },
+      });
+    } else {
+      console.error('Path no encontrado en steps.json:', path);
+    }
   }
 
   isCurrentStep(path: string): boolean {

@@ -1,107 +1,136 @@
-<p-panel header="Gestión de Preguntas de Investigación">
-  <div class="info-text">
-    Ingresa la pregunta de investigación y selecciona los objetivos relacionados.
-  </div>
-
-  <div class="form-container">
-    <div class="field">
-      <label for="code">Código</label>
-      <input pInputText id="code" formControlName="code" placeholder="Ingrese el código" />
-    </div>
-    <div class="field">
-      <label for="question">Pregunta de Investigación</label>
-      <textarea
-        pInputTextarea
-        id="question"
-        formControlName="question"
-        placeholder="Ingrese la pregunta"
-      ></textarea>
-    </div>
-    <div class="field objectives-list">
-      <label>Objetivos</label>
-      <div *ngFor="let goal of goals">
-        <p-checkbox
-          binary="true"
-          [value]="goal"
-          (onChange)="onGoalToggle(goal)"
-          label="{{ goal.descripcion }}"
-        ></p-checkbox>
+<div class="container">
+  <!-- Fila superior: Formulario y tabla de objetivos -->
+  <div class="row">
+    <!-- Columna izquierda: Formulario -->
+    <div class="col-6">
+      <div class="form-container">
+        <form [formGroup]="formQuestion">
+          <div class="field">
+            <label for="codigo">Código</label>
+            <input
+              type="text"
+              pInputText
+              id="codigo"
+              formControlName="codigo"
+              required
+              class="custom-input"
+            />
+          </div>
+          <div class="field">
+            <label for="descripcion">Pregunta de Investigación</label>
+            <textarea
+              id="descripcion"
+              pInputTextarea
+              formControlName="descripcion"
+              rows="3"
+              cols="20"
+              required
+              class="custom-textarea"
+            ></textarea>
+          </div>
+          <div class="buttons">
+            <p-button
+              label="{{ isEditMode ? 'Modificar' : 'Aceptar' }}"
+              icon="pi pi-check"
+              class="mr-2"
+              severity="success"
+              (onClick)="saveQuestion()"
+              [disabled]="!formQuestion.valid || selectedGoals.length === 0"
+            ></p-button>
+            <p-button
+              label="{{ isEditMode ? 'Cancelar' : 'Limpiar Campos' }}"
+              icon="pi pi-times"
+              severity="secondary"
+              (onClick)="resetForm()"
+            ></p-button>
+          </div>
+        </form>
       </div>
     </div>
-    <button pButton type="button" label="Registrar" (click)="onSubmit()"></button>
+
+    <!-- Columna derecha: Tabla de objetivos -->
+    <div class="col-6">
+      <div class="table-container">
+        <p-table
+          [value]="goals"
+          [(selection)]="selectedGoals"
+          [paginator]="true"
+          [rows]="5"
+          [tableStyle]="{ 'min-width': '30rem' }"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 4rem"><p-tableHeaderCheckbox /></th>
+              <th>Código</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-goal>
+            <tr>
+              <td><p-tableCheckbox [value]="goal" /></td>
+              <td>{{ goal.codigo }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
   </div>
 
-  <p-table [value]="questions" [paginator]="true" [rows]="5" class="questions-table">
-    <ng-template pTemplate="header">
-      <tr>
-        <th>Código</th>
-        <th>Pregunta de Investigación</th>
-        <th>Objetivos Relacionados</th>
-        <th>Tópicos</th>
-        <th>Acciones</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-question>
-      <tr>
-        <td>
-          <input
-            *ngIf="question.editing"
-            [(ngModel)]="question.code"
-            type="text"
-            pInputText
-          />
-          <span *ngIf="!question.editing">{{ question.code }}</span>
-        </td>
-        <td>
-          <textarea
-            *ngIf="question.editing"
-            [(ngModel)]="question.question"
-            pInputTextarea
-          ></textarea>
-          <span *ngIf="!question.editing">{{ question.question }}</span>
-        </td>
-        <td>
-          <span *ngIf="!question.editing">{{ question.relatedGoals }}</span>
-        </td>
-        <td>
-          <button
-            pButton
-            icon="pi pi-plus"
-            class="p-button-rounded"
-            (click)="addTopic(question)"
-          ></button>
-        </td>
-        <td>
-          <button
-            pButton
-            icon="pi pi-pencil"
-            class="p-button-rounded"
-            (click)="editQuestion(question)"
-          ></button>
-          <button
-            pButton
-            icon="pi pi-trash"
-            class="p-button-rounded"
-            (click)="deleteQuestion(question)"
-          ></button>
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
-</p-panel>
-
-<p-dialog
-  header="Tópicos"
-  [(visible)]="showTopicDialog"
-  [style]="{ width: '400px' }"
->
-  <div class="field">
-    <label for="topicName">Name:</label>
-    <input pInputText id="topicName" [(ngModel)]="newTopic.name" />
+  <!-- Fila inferior: Tabla de preguntas -->
+  <div class="row">
+    <div class="col-12">
+      <div class="questions-table">
+        <p-table
+          [value]="questions"
+          [paginator]="true"
+          [rows]="5"
+          [tableStyle]="{ 'min-width': '50rem' }"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Código</th>
+              <th>Pregunta</th>
+              <th>Objetivos Asociados</th>
+              <th>Tópicos</th>
+              <th>Acciones</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-question>
+            <tr>
+              <td>{{ question.codigo }}</td>
+              <td>{{ question.descripcion }}</td>
+              <td>
+                <ul>
+                  <li *ngFor="let obj of question.objetivos">
+                    {{ getGoalDescription(obj) }}
+                  </li>
+                </ul>
+              </td>
+              <td>
+                <p-button
+                  icon="pi pi-plus"
+                  class="mr-2"
+                  (onClick)="addTopicToQuestion(question)"
+                  label="Agregar Tópico"
+                  severity="info"
+                ></p-button>
+              </td>
+              <td>
+                <p-button
+                  icon="pi pi-pencil"
+                  class="mr-2"
+                  (onClick)="editQuestion(question)"
+                  severity="success"
+                ></p-button>
+                <p-button
+                  icon="pi pi-trash"
+                  (onClick)="deleteQuestion(question)"
+                  severity="danger"
+                ></p-button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
   </div>
-  <div class="field">
-    <label for="topicTags">Tags:</label>
-    <input pInputText id="topicTags" [(ngModel)]="newTopic.tags" />
-  </div>
-  <button pButton label="Aceptar" (click)="addTopicToQuestion()"></button>
-</p-dialog>
+</div>

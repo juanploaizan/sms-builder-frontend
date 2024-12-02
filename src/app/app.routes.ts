@@ -41,7 +41,23 @@ export const routes: Routes = [
           ),
         title: 'Paso 3 - Gestión de preguntas de investigación - SMS Builder',
       },
+      {
+        path: 'importar-estudios-bd',
+        loadComponent: () =>
+          import('./dashboard/cargar-estudios-bd/cargar-estudios-bd.component').then(
+            (m) => m.CargarEstudiosBDComponent
+          ),
+        title: 'Paso 9 - Importar estudios de BD',
+      },
 
+      {
+        path: 'importar-estudios-id',
+        loadComponent: () =>
+          import('./dashboard/cargar-estudios-id/cargar-estudios-id.component').then(
+            (m) => m.CargarEstudiosIdComponent
+          ),
+        title: 'Paso 10 - Importar estudios de Inclusion directa',
+      },
       {
         path: '**',
         redirectTo: '',

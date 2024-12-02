@@ -1,0 +1,84 @@
+<div class="container">
+  <div class="form-container">
+    <h3>Importar Estudios de Inclusión Directa</h3>
+    <form [formGroup]="formCarga">
+      <div class="grid-container">
+        <!-- Fuente -->
+        <div class="field">
+          <label for="fuente">Fuente:</label>
+        </div>
+        <div class="field">
+          <p-dropdown
+            id="fuente"
+            [options]="fuentes"
+            optionLabel="nombre"
+            formControlName="fuente"
+            placeholder="Seleccione una fuente"
+          ></p-dropdown>
+        </div>
+
+        <!-- Formato de archivo -->
+        <div class="field">
+          <label for="tipoArchivo">Formato de Archivo:</label>
+        </div>
+        <div class="field">
+          <p-dropdown
+            id="tipoArchivo"
+            [options]="tiposArchivo"
+            formControlName="tipoArchivo"
+            placeholder="Seleccione un formato"
+          ></p-dropdown>
+        </div>
+
+        <!-- Archivo -->
+        <div class="field">
+          <label for="archivo">Archivo:</label>
+        </div>
+        <div class="field">
+          <button
+            type="button"
+            class="file-input-button"
+            (click)="fileInput.click()"
+          >
+            <i class="pi pi-upload"></i> Seleccionar archivo
+          </button>
+          <input
+            #fileInput
+            type="file"
+            id="archivo"
+            (change)="onFileSelect($event)"
+            accept="{{ getFileAccept() }}"
+            hidden
+          />
+        </div>
+      </div>
+
+      <!-- Vista previa del archivo cargado -->
+      <div class="file-preview" *ngIf="selectedFile">
+        <div class="file-details">
+          <i class="pi pi-file file-icon"></i>
+          <span>{{ selectedFile.name }}</span>
+          <button
+            type="button"
+            class="delete-button"
+            (click)="clearFile()"
+            title="Eliminar archivo"
+          >
+            <i class="pi pi-trash"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="buttons">
+        <p-button
+          label="Aceptar"
+          icon="pi pi-check"
+          severity="success"
+          (onClick)="uploadFile()"
+          [disabled]="!formCarga.valid || !selectedFile"
+        ></p-button>
+      </div>
+    </form>
+  </div>
+</div>
